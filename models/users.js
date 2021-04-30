@@ -4,8 +4,8 @@ const userSchema = mongoose.Schema({
     username: String,
     email: String,
     password: String,
-    token: String
-    SelectedLang: String,
+    token: String,
+    selectedLang: String,
 })
 
 const userModel = mongoose.model('users', userSchema)

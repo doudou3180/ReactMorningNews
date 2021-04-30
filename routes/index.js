@@ -35,13 +35,15 @@ router.post('/sign-up', async function (req, res, next) {
       username: req.body.usernameFromFront,
       email: req.body.emailFromFront,
       password: hash,
-      token: uid2(32)
+      token: uid2(32),
+      selectedLang: 'fr'
     })
     saveUser = await newUser.save()
 
     if (saveUser) {
       result = true
       token = saveUser.token
+      selectedLang = saveUser.selectedLang
     }
   }
   res.json({ result, saveUser, error, token })
