@@ -44,11 +44,11 @@ function ScreenSource(props) {
   var updateLang = async (lang) => {
     setSelectedLang(lang)
 
-    const reqLang = await fetch('/user-lang', {
-      method: "POST",
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: `lang=${lang}&token=${props.token}`
-    })
+    //const reqLang = await fetch('/user-lang', {
+    //  method: "POST",
+    //  headers: {"Content-Type": "application/x-www-form-urlencoded"},
+    //  body: `lang=${lang}&token=${props.token}`
+    //})
 
   }
 

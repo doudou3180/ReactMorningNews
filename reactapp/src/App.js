@@ -8,11 +8,13 @@ import ScreenMyArticles from './ScreenMyArticles'
 import ScreenSource from './ScreenSource'
 
 import articleList from './reducers/article'
+import token from './reducers/token'
+import selectedLang from './reducers/selectedLang'
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
 
-const store = createStore(combineReducers({articleList}));
+const store = createStore(combineReducers({articleList, token, selectedLang}));
 
 function App() {
   return (

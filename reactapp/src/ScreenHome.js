@@ -4,7 +4,7 @@ import './App.css';
 import {Input,Button} from 'antd';
 import {Redirect} from 'react-router-dom'
 
-function ScreenHome() {
+function ScreenHome(props) {
 
   const [signUpUsername, setSignUpUsername] = useState('')
   const [signUpEmail, setSignUpEmail] = useState('')
@@ -23,7 +23,7 @@ function ScreenHome() {
 
 /* COMPOSANT APP  SIGN UP*/
 
-  var handleSubmitSignup = async (props) => {    
+  var handleSubmitSignup = async () => {    
     const data = await fetch('/sign-up', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -41,7 +41,7 @@ function ScreenHome() {
   }
 
 
-  var handleSubmitSignin = async (props) => {
+  var handleSubmitSignin = async () => {
  
     const data = await fetch('/sign-in', {
       method: 'POST',
@@ -50,9 +50,10 @@ function ScreenHome() {
     })
 
     const body = await data.json()
-
+ console.log(body)
     if(body.result == true){
       setUserExists(true)
+      console.log(body.token)
       props.addToken(body.token)
     }  else {
       setErrorsSignin(body.error)
