@@ -1,13 +1,16 @@
 var express = require('express');
 var router = express.Router();
+
+/* MODELE D'UTILISATEURS */
+var userModel = require('../models/users')
 require('../models/article.js');
+
 
 /* CRYPTAGE DU MOTS DE PASSE */
 var uid2 = require("uid2");
 var bcrypt = require('bcrypt');
 
-/* MODELE D'UTILISATEURS */
-var userModel = require('../models/users')
+
 
 /* ROUTE POST SIGN UP --------------------------------------------------------*/
 router.post('/sign-up', async function (req, res, next) {
@@ -85,17 +88,29 @@ router.post('/sign-in', async function (req, res, next) {
 
 })
 
-// ROUTE ADD-articles WISHLIST ----------------------------------------------------------------------------------------//
+// ROUTE ADD-Articles WISHLIST ----------------------------------------------------------------------------------------//
 
 router.post('/screenmyarticles', async function (req, res, next) {
-  console.log(req.body)
- var newArticle = new articleModel({
-   articleTitle : req.body.title,
-   articleDescription: req.body.description,
-   articleImg: req.body.img,
- })
-var articleSave = await newArticle.save()
-  res.json({articleSave, result: true})
+ var result = false;
+
+ 
+ var user = await usersModel.findOne({token: req.body.token});
+   if(user != null) {
+     var newUser = await articleModel({
+       articleTitle: req.body.name,
+       articleDescription: req.body.description,
+       urlToImage:req.body.img,
+       articleContent: req.body.content,
+       selectedLang:req.body.Lang,
+       userId: user._id
+     })
+   }
+var articleSave = await newUser.save();
+
+if (articleSave.name){
+  result = true;
+}
+  res.json({result});
 });
 
 // ADD USER LANG -------------------------------------------------------
