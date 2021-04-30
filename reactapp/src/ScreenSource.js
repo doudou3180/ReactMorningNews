@@ -44,23 +44,15 @@ function ScreenSource(props) {
   var updateLang = async (lang) => {
     setSelectedLang(lang)
 
-    //const reqLang = await fetch('/user-lang', {
-    //  method: "POST",
-    //  headers: {"Content-Type": "application/x-www-form-urlencoded"},
-    //  body: `lang=${lang}&token=${props.token}`
-    //})
+    const reqLang = await fetch('/user-lang', {
+     method: "POST",
+     headers: {"Content-Type": "application/x-www-form-urlencoded"},
+     body: `lang=${lang}&token=${props.token}`
+    })
 
   }
 
-  var styleBorderFr = {borderRadius: " 25px", width: "40px", margin:"20px", cursor: 'pointer'};
-  if(selectedLang === "fr") {
-    styleBorderFr.border = '1px solid black'
-  }
 
-  var styleBorderEn = {borderRadius: " 25px", width: "40px", margin:"20px", cursor: 'pointer'};
-  if(selectedLang === "en") {
-    styleBorderEn.border = '1px solid black'
-  }
 
   return (
     <div>

@@ -99,9 +99,13 @@ var articleSave = await newArticle.save()
 });
 
 // ADD USER LANG -------------------------------------------------------
-router.post('/user-lang', async function (req, res, next){
-  // user = await userModel.findOne({ email: req.body.emailFromFront })
+router.post('/user-lang'
+// recuperer le token ici
+, async function (req, res, next){
+  user = await userModel.findOne({token})
+  // user.selectedLang = ;
 
+  // Ici retourner l'user avec dans son user.lang le "fr"
 });
 
 
