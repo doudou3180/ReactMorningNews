@@ -1,80 +1,101 @@
 var express = require('express');
 var router = express.Router();
+require('../models/article.js');
 
+/* CRYPTAGE DU MOTS DE PASSE */
+var uid2 = require("uid2");
+var bcrypt = require('bcrypt');
+
+/* MODELE D'UTILISATEURS */
 var userModel = require('../models/users')
 
-
-router.post('/sign-up', async function(req,res,next){
+/* ROUTE POST SIGN UP --------------------------------------------------------*/
+router.post('/sign-up', async function (req, res, next) {
 
   var error = []
   var result = false
   var saveUser = null
 
+  /* GENERER LE HASH */
+  const cost = 10;
+  const hash = bcrypt.hashSync(req.body.passwordFromFront, cost);
+
   const data = await userModel.findOne({
     email: req.body.emailFromFront
   })
-
-  if(data != null){
-    error.push('utilisateur déjà présent')
-  }
-
-  if(req.body.usernameFromFront == ''
-  || req.body.emailFromFront == ''
-  || req.body.passwordFromFront == ''
-  ){
-    error.push('champs vides')
-  }
+  
+  if (data != null) { error.push('utilisateur déjà présent') }
 
 
-  if(error.length == 0){
+  if (req.body.usernameFromFront == '' || req.body.emailFromFront == '' || req.body.passwordFromFront == '') { error.push('champs vides') }
+
+  if (error.length == 0) {
+
     var newUser = new userModel({
       username: req.body.usernameFromFront,
       email: req.body.emailFromFront,
-      password: req.body.passwordFromFront
+      password: hash,
+      token: uid2(32)
     })
-  
     saveUser = await newUser.save()
-  
-    
-    if(saveUser){
+
+    if (saveUser) {
       result = true
+      token = saveUser.token
     }
   }
-  
-
-  res.json({result, saveUser, error})
+  res.json({ result, saveUser, error, token })
 })
 
-router.post('/sign-in', async function(req,res,next){
+
+/* ROUTE POST SIGN IN --------------------------------------------------------*/
+
+
+router.post('/sign-in', async function (req, res, next) {
 
   var result = false
   var user = null
   var error = []
-  
-  if(req.body.emailFromFront == ''
-  || req.body.passwordFromFront == ''
-  ){
+  var password = req.body.passwordFromFront
+  var token = null
+
+  if (req.body.emailFromFront == '' || req.body.passwordFromFront == '') {
     error.push('champs vides')
   }
 
-  if(error.length == 0){
-    const user = await userModel.findOne({
-      email: req.body.emailFromFront,
-      password: req.body.passwordFromFront
-    })
-  
-    
-    if(user){
-      result = true
-    } else {
+  user = await userModel.findOne({ email: req.body.emailFromFront })
+
+  if (!user) {
+      error.push('email ou mot de passe incorrect')
+  }
+  if (error.length == 0) {
+
+  if (bcrypt.compareSync(password, user.password)) {
+      result = true;
+      token = user.token
+
+  } else {
       error.push('email ou mot de passe incorrect')
     }
   }
-  
 
-  res.json({result, user, error})
-
+  res.json({ result, user, error, token })
 
 })
+
+// ROUTE ADD-MOVIES WISHLIST ----------------------------------------------------------------------------------------//
+
+router.post('/screenmyarticles', async function (req, res, next) {
+  console.log(req.body)
+ var newArticle = new articleModel({
+   articleTitle : req.body.title,
+   articleDescription: req.body.description,
+   articleImg: req.body.img,
+ })
+var articleSave = await newArticle.save()
+  res.json({articleSave, result: true})
+})
+
+
 
 module.exports = router;

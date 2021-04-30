@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import './App.css';
 import {Input,Button} from 'antd';
-import {Link, Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 function ScreenHome() {
 
   const [signUpUsername, setSignUpUsername] = useState('')
   const [signUpEmail, setSignUpEmail] = useState('')
   const [signUpPassword, setSignUpPassword] = useState('')
+  
 
   const [signInEmail, setSignInEmail] = useState('')
   const [signInPassword, setSignInPassword] = useState('')
@@ -17,8 +19,11 @@ function ScreenHome() {
   const [listErrorsSignin, setErrorsSignin] = useState([])
   const [listErrorsSignup, setErrorsSignup] = useState([])
 
-  var handleSubmitSignup = async () => {
-    
+
+
+/* COMPOSANT APP  SIGN UP*/
+
+  var handleSubmitSignup = async (props) => {    
     const data = await fetch('/sign-up', {
       method: 'POST',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -29,12 +34,14 @@ function ScreenHome() {
 
     if(body.result == true){
       setUserExists(true)
+      props.addToken(body.token)
     } else {
       setErrorsSignup(body.error)
     }
   }
 
-  var handleSubmitSignin = async () => {
+
+  var handleSubmitSignin = async (props) => {
  
     const data = await fetch('/sign-in', {
       method: 'POST',
@@ -46,6 +53,7 @@ function ScreenHome() {
 
     if(body.result == true){
       setUserExists(true)
+      props.addToken(body.token)
     }  else {
       setErrorsSignin(body.error)
     }
@@ -102,4 +110,19 @@ function ScreenHome() {
   );
 }
 
-export default ScreenHome;
+/* COMPOSANT CONTAINER SIGN UP*/
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addToken: function(token) {
+        dispatch( {type: 'addToken', token:token} )
+    }
+  }
+ }
+ 
+ export default connect(
+    null,
+    mapDispatchToProps
+ )(ScreenHome);
+

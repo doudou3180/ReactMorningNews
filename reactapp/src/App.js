@@ -7,8 +7,16 @@ import ScreenArticlesBySource from './ScreenArticlesBySource'
 import ScreenMyArticles from './ScreenMyArticles'
 import ScreenSource from './ScreenSource'
 
+import articleList from './reducers/article'
+
+import {Provider} from 'react-redux';
+import {createStore, combineReducers}  from 'redux';
+
+const store = createStore(combineReducers({articleList}));
+
 function App() {
   return (
+    <Provider store={store}>
 
     <Router>
       <Switch>
@@ -19,6 +27,7 @@ function App() {
       </Switch>
     </Router>
 
+    </Provider>
   );
 }
 
