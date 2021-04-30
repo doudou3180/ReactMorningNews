@@ -3,7 +3,6 @@ var router = express.Router();
 
 /* MODELE D'UTILISATEURS */
 var userModel = require('../models/users')
-require('../models/article.js');
 
 
 /* CRYPTAGE DU MOTS DE PASSE */
@@ -90,18 +89,23 @@ router.post('/sign-in', async function (req, res, next) {
 
 // ROUTE ADD-Articles WISHLIST ----------------------------------------------------------------------------------------//
 
-router.post('/screenmyarticles', async function (req, res, next) {
+router.post('/addtowishlist', async function (req, res, next) {
  var result = false;
 
  var user = await userModel.findOne({token: req.body.token});
 
+ let variableTemp = user.article
 
+ variableTemp.push({
+  articleTitle: req.body.title,
+  articleDescription: req.body.description,
+  urlToImage: req.body.url,
+  articleContent: req.body.content,
+  // articleLang: req.body.lang
+ });
 
+user = await userModel.updateOne({token: req.body.token}, {article: variableTemp})
 
-var articleSave = await newUser.save();
-if (articleSave.name){
-  result = true;
-}
   res.json({result: true});
 });
 
