@@ -83,7 +83,7 @@ router.post('/sign-in', async function (req, res, next) {
 
 })
 
-// ROUTE ADD-MOVIES WISHLIST ----------------------------------------------------------------------------------------//
+// ROUTE ADD-articles WISHLIST ----------------------------------------------------------------------------------------//
 
 router.post('/screenmyarticles', async function (req, res, next) {
   console.log(req.body)
@@ -94,7 +94,7 @@ router.post('/screenmyarticles', async function (req, res, next) {
  })
 var articleSave = await newArticle.save()
   res.json({articleSave, result: true})
-})
+});
 
 
 
