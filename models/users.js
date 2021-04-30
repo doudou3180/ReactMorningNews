@@ -8,11 +8,7 @@ var articleSchema = mongoose.Schema({
     articleDescription: String,
     urlToImage: String,
     articleContent: String,
-    selectedLang: String,
-    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'users'}
-    
-    //globalRating: Number,
-    //viewCount: Number,
+    articleLang: String,
     
 });
 

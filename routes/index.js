@@ -93,31 +93,24 @@ router.post('/sign-in', async function (req, res, next) {
 router.post('/screenmyarticles', async function (req, res, next) {
  var result = false;
 
- 
- var user = await usersModel.findOne({token: req.body.token});
-   if(user != null) {
-     var newUser = await articleModel({
-       articleTitle: req.body.name,
-       articleDescription: req.body.description,
-       urlToImage:req.body.img,
-       articleContent: req.body.content,
-       selectedLang:req.body.Lang,
-       userId: user._id
-     })
-   }
-var articleSave = await newUser.save();
+ var user = await userModel.findOne({token: req.body.token});
 
+
+
+ 
+var articleSave = await newUser.save();
 if (articleSave.name){
   result = true;
 }
-  res.json({result});
+  res.json({result: true});
 });
 
 // ADD USER LANG -------------------------------------------------------
-router.post('/user-lang', async function (req, res, next){
+
+//router.post('/user-lang', async function (req, res, next){
   // user = await userModel.findOne({ email: req.body.emailFromFront })
 
-});
+//});
 
 
 
