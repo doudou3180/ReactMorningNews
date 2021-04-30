@@ -117,10 +117,12 @@ if (articleSave.name){
 router.post('/user-lang'
 // recuperer le token ici
 , async function (req, res, next){
+  var result = false;
   user = await userModel.findOne({token})
   // user.selectedLang = ;
 
   // Ici retourner l'user avec dans son user.lang le "fr"
+  res.json({result})
 });
 
 
