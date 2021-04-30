@@ -97,7 +97,7 @@ router.post('/screenmyarticles', async function (req, res, next) {
 
 
 
- 
+
 var articleSave = await newUser.save();
 if (articleSave.name){
   result = true;
@@ -106,11 +106,16 @@ if (articleSave.name){
 });
 
 // ADD USER LANG -------------------------------------------------------
+router.post('/user-lang'
+// recuperer le token ici
+, async function (req, res, next){
+  var result = false;
+  user = await userModel.findOne({token})
+  // user.selectedLang = ;
 
-//router.post('/user-lang', async function (req, res, next){
-  // user = await userModel.findOne({ email: req.body.emailFromFront })
-
-//});
+  // Ici retourner l'user avec dans son user.lang le "fr"
+  res.json({result})
+});
 
 
 
