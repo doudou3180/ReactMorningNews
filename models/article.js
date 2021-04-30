@@ -4,13 +4,13 @@ var articleSchema = mongoose.Schema({
 
     articleTitle: String,
     articleDescription: String,
-    img: String,
-    //globalCount: Number,
+    articleImg: String,
+    
     //globalRating: Number,
     //viewCount: Number,
     
 });
 
-var articleModel = mongoose.model('index', articleSchema);
+var articleModel = mongoose.model('articles', articleSchema);
 
 module.exports = articleModel;
