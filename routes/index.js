@@ -98,6 +98,12 @@ var articleSave = await newArticle.save()
   res.json({articleSave, result: true})
 });
 
+// ADD USER LANG -------------------------------------------------------
+router.post('/user-lang', async function (req, res, next){
+  // user = await userModel.findOne({ email: req.body.emailFromFront })
+
+});
+
 
 
 module.exports = router;
